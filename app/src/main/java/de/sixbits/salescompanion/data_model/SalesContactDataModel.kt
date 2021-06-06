@@ -8,6 +8,6 @@ data class SalesContactDataModel(
     val company: String,
     val phone: String,
     val email: String,
-    val createdAt: Date,
-    val updatedAt: Date,
+    val createdAt: Date?,
+    val updatedAt: Date?
 )

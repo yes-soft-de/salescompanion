@@ -8,10 +8,11 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
-import de.sixbits.salescompanion.contacts.ContactService
+import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.network.HubspotApi
 import de.sixbits.salescompanion.network.HubspotManager
 import de.sixbits.salescompanion.network.NetworkComponent
+import de.sixbits.salescompanion.service.ContactService
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -55,8 +56,20 @@ open class AppModule {
 
     @Singleton
     @Provides
-    fun provideContactService(contentResolver: ContentResolver): ContactService {
-        return ContactService(contentResolver)
+    fun provideDeviceContactService(contentResolver: ContentResolver): DeviceContactService {
+        return DeviceContactService(contentResolver)
+    }
+
+    @Singleton
+    @Provides
+    fun provideContactsService(
+        deviceContactService: DeviceContactService,
+        hubspotManager: HubspotManager
+    ): ContactService {
+        return ContactService(
+            deviceContactService = deviceContactService,
+            hubspotManager = hubspotManager
+        )
     }
 
 //    @Singleton

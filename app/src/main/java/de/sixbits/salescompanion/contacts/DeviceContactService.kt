@@ -9,7 +9,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ContactService @Inject constructor(private val contentResolver: ContentResolver) {
+class DeviceContactService @Inject constructor(private val contentResolver: ContentResolver) {
     fun getContacts(): List<SalesContactDataModel> {
 
         // First request contacts
