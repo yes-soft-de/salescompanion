@@ -84,7 +84,6 @@ android {
 }
 
 dependencies {
-
     def retrofit_version = '2.9.0'
     def okHttp_version = "4.9.1"
     def rx_java_version = "3.0.13"
@@ -228,9 +227,5 @@ dependencies {
 
     // region Roboelectric
     testImplementation 'org.robolectric:robolectric:4.4'
-    // endregion
-
-    // region for testing network requests
-    implementation "io.americanexpress.busybee:busybee-android:0.0.3"
     // endregion
 }

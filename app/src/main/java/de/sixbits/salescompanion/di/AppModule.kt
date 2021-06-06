@@ -7,6 +7,8 @@ import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
+import de.sixbits.salescompanion.network.HubspotApi
+import de.sixbits.salescompanion.network.NetworkComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -14,7 +16,7 @@ import javax.inject.Singleton
 
 @Module(
     subcomponents = [
-//        NetworkComponent::class,
+        NetworkComponent::class
 //        MainComponent::class,
 //        DatabaseComponent::class
     ]
@@ -74,9 +76,9 @@ open class AppModule {
 //        return PixabayManager(pixabayService)
 //    }
 
-//    @Singleton
-//    @Provides
-//    fun providePixabayService(retrofit: Retrofit): PixabayService {
-//        return retrofit.create(PixabayService::class.java)
-//    }
+    @Singleton
+    @Provides
+    fun provideHubSpotApi(retrofit: Retrofit): HubspotApi {
+        return retrofit.create(HubspotApi::class.java)
+    }
 }
