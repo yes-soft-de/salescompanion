@@ -13,6 +13,7 @@ import de.sixbits.salescompanion.network.HubspotApi
 import de.sixbits.salescompanion.network.HubspotManager
 import de.sixbits.salescompanion.network.NetworkComponent
 import de.sixbits.salescompanion.service.ContactService
+import de.sixbits.salescompanion.view.PresentationComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -20,8 +21,8 @@ import javax.inject.Singleton
 
 @Module(
     subcomponents = [
-        NetworkComponent::class
-//        MainComponent::class,
+        NetworkComponent::class,
+        PresentationComponent::class
 //        DatabaseComponent::class
     ]
 )
@@ -50,14 +51,8 @@ open class AppModule {
 
     @Singleton
     @Provides
-    fun provideContentResolver(application: Application): ContentResolver? {
-        return application.contentResolver
-    }
-
-    @Singleton
-    @Provides
-    fun provideDeviceContactService(contentResolver: ContentResolver): DeviceContactService {
-        return DeviceContactService(contentResolver)
+    fun provideDeviceContactService(application: Application): DeviceContactService {
+        return DeviceContactService(application.contentResolver)
     }
 
     @Singleton
