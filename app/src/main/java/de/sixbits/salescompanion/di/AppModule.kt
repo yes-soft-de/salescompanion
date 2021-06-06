@@ -1,7 +1,6 @@
 package de.sixbits.salescompanion.di
 
 import android.app.Application
-import android.content.ContentResolver
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
@@ -10,7 +9,6 @@ import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
 import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.network.HubspotApi
-import de.sixbits.salescompanion.network.HubspotManager
 import de.sixbits.salescompanion.network.NetworkComponent
 import de.sixbits.salescompanion.service.ContactService
 import de.sixbits.salescompanion.view.PresentationComponent
@@ -59,11 +57,11 @@ open class AppModule {
     @Provides
     fun provideContactsService(
         deviceContactService: DeviceContactService,
-        hubspotManager: HubspotManager
+        hubspotApi: HubspotApi
     ): ContactService {
         return ContactService(
             deviceContactService = deviceContactService,
-            hubspotManager = hubspotManager
+            hubspotApi = hubspotApi
         )
     }
 
@@ -91,13 +89,6 @@ open class AppModule {
 //    fun provideCacheDao(cacheDatabase: CacheDatabase): CacheDao {
 //        return cacheDatabase.cacheDao()
 //    }
-
-
-    @Singleton
-    @Provides
-    fun provideHubSpotManager(pixabayService: HubspotApi): HubspotManager {
-        return HubspotManager(pixabayService)
-    }
 
     @Singleton
     @Provides
