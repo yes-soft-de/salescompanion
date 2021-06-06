@@ -1,12 +1,14 @@
 package de.sixbits.salescompanion.di
 
 import android.app.Application
+import android.content.ContentResolver
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
+import de.sixbits.salescompanion.contacts.ContactService
 import de.sixbits.salescompanion.network.HubspotApi
 import de.sixbits.salescompanion.network.HubspotManager
 import de.sixbits.salescompanion.network.NetworkComponent
@@ -43,6 +45,18 @@ open class AppModule {
     ): RequestManager {
         return Glide.with(application)
             .setDefaultRequestOptions(requestOptions)
+    }
+
+    @Singleton
+    @Provides
+    fun provideContentResolver(application: Application): ContentResolver? {
+        return application.contentResolver
+    }
+
+    @Singleton
+    @Provides
+    fun provideContactService(contentResolver: ContentResolver): ContactService {
+        return ContactService(contentResolver)
     }
 
 //    @Singleton
