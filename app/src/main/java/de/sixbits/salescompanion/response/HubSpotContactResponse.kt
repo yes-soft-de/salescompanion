@@ -5,13 +5,13 @@ import com.squareup.moshi.Json
 
 data class HubSpotContactResponse(
     @Json(name = "paging")
-    val paging: Paging,
+    val paging: Paging? = null,
     @Json(name = "results")
     val results: List<Result>
 ) {
     data class Paging(
         @Json(name = "next")
-        val next: Next
+        val next: Next? = null
     ) {
         data class Next(
             @Json(name = "after")

@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
 import de.sixbits.salescompanion.network.HubspotApi
+import de.sixbits.salescompanion.network.HubspotManager
 import de.sixbits.salescompanion.network.NetworkComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.Retrofit
@@ -70,11 +71,11 @@ open class AppModule {
 //    }
 
 
-//    @Singleton
-//    @Provides
-//    fun providePixabayManager(pixabayService: PixabayService): PixabayManager {
-//        return PixabayManager(pixabayService)
-//    }
+    @Singleton
+    @Provides
+    fun provideHubSpotManager(pixabayService: HubspotApi): HubspotManager {
+        return HubspotManager(pixabayService)
+    }
 
     @Singleton
     @Provides
