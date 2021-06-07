@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Module(
     subcomponents = [
         NetworkComponent::class,
-        PresentationComponent::class
+        ContactsComponent::class
 //        DatabaseComponent::class
     ]
 )

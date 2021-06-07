@@ -9,5 +9,6 @@ data class SalesContactDataModel(
     val phone: String,
     val email: String,
     val createdAt: Date?,
-    val updatedAt: Date?
+    val updatedAt: Date?,
+    val synced: Boolean = false
 )

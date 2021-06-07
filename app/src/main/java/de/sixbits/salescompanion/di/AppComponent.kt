@@ -23,7 +23,7 @@ interface AppComponent : AndroidInjector<MyApplication> {
         fun build(): AppComponent
     }
 
-    fun presentationComponent(): PresentationComponent.Factory
+    fun presentationComponent(): ContactsComponent.Factory
 //    fun networkComponent(): NetworkComponent.Factory
 //    fun databaseComponent(): DatabaseComponent.Factory
 }

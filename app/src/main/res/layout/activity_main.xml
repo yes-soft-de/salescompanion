@@ -24,23 +24,8 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <FrameLayout
+            android:id="@+id/fl_main_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_contact_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:listitem="@layout/contact_row" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/pb_contacts_loading"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                app:trackColor="@color/black" />
-        </FrameLayout>
+            android:layout_height="match_parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

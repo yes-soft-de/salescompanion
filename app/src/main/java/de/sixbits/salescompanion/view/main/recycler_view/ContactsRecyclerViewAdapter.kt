@@ -3,13 +3,17 @@ package de.sixbits.salescompanion.view.main.recycler_view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import de.sixbits.salescompanion.R
 import de.sixbits.salescompanion.callbacks.OnContactClickListener
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.databinding.ContactRowBinding
 
 private const val TAG = "ContactsRecyclerViewAda"
 
-class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesContactDataModel>, private val onContactClickListener: OnContactClickListener) :
+class ContactsRecyclerViewAdapter constructor(
+    private var contacts: List<SalesContactDataModel>,
+    private val onContactClickListener: OnContactClickListener
+) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
 
     class ContactsRecyclerViewHolder(val binding: ContactRowBinding) :
@@ -31,10 +35,18 @@ class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesCo
         val phone = "${contacts[position].phone} "
         holder.binding.tvContactRowTitle.text = fullName
         holder.binding.tvContactRowPhone.text = phone
+        if (contacts[position].synced) {
+            holder.binding.ivContactRowLeading.setImageResource(R.drawable.ic_circle_synced)
+        }
 
         holder.binding.root.setOnClickListener {
             onContactClickListener.onContactClick(contact = contacts[position])
         }
+    }
+
+    fun replaceContacts(newContacts: List<SalesContactDataModel>) {
+        contacts = newContacts
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = contacts.size

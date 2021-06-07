@@ -8,7 +8,7 @@ import de.sixbits.salescompanion.di.ViewModelKey
 import de.sixbits.salescompanion.view_model.MainViewModel
 
 @Module
-abstract class PresentationModule {
+abstract class ContactsModule {
 
     @Binds
     @IntoMap

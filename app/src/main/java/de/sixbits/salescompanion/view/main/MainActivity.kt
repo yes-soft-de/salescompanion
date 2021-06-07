@@ -3,18 +3,17 @@ package de.sixbits.salescompanion.view.main
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import de.sixbits.salescompanion.MyApplication
+import de.sixbits.salescompanion.R
 import de.sixbits.salescompanion.databinding.ActivityMainBinding
-import de.sixbits.salescompanion.di.PresentationComponent
-import de.sixbits.salescompanion.view_model.MainViewModel
+import de.sixbits.salescompanion.di.ContactsComponent
+import de.sixbits.salescompanion.view.main.fragments.DeviceContactsListFragment
+import de.sixbits.salescompanion.view_model.main.MainViewModel
+import de.sixbits.salescompanion.view_model.main.NetworkContactsViewModel
 import javax.inject.Inject
 
 
@@ -26,15 +25,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var presentationComponent: PresentationComponent
+    private lateinit var contactsComponent: ContactsComponent
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        presentationComponent = (application as MyApplication)
+        contactsComponent = (application as MyApplication)
             .appComponent
             .presentationComponent()
             .create()
-        presentationComponent.inject(this)
+        contactsComponent.inject(this)
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,6 +47,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        if (mainViewModel.isInNetwork) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fl_main_fragment_container, DeviceContactsListFragment())
+                .commit()
+        }
         // Check for Permissions
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -61,38 +65,9 @@ class MainActivity : AppCompatActivity() {
             )
             return
         }
-
-        binding.rvContactList.layoutManager = LinearLayoutManager(baseContext)
-        mainViewModel.getNetworkContacts()
-        mainViewModel.getDeviceContacts()
     }
 
     private fun setupListeners() {
-        mainViewModel.contactsAdapterLiveData.observe(this, {
-            binding.rvContactList.adapter = it
-        })
-        mainViewModel.snacksLiveData.observe(this, {
-            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
-        })
-        mainViewModel.loadingLiveData.observe(this, { loading ->
-            if (loading) {
-                binding.pbContactsLoading.visibility = View.VISIBLE
-                binding.rvContactList.visibility = View.GONE
-            } else {
-                binding.pbContactsLoading.visibility = View.GONE
-                binding.rvContactList.visibility = View.VISIBLE
-            }
-        })
-    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CONTACTS_PERMISSIONS_CODE) {
-            initViews()
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
