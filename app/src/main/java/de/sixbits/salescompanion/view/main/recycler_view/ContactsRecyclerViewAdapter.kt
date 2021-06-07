@@ -1,19 +1,15 @@
 package de.sixbits.salescompanion.view.main.recycler_view
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import de.sixbits.salescompanion.callbacks.OnContactClickListener
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.databinding.ContactRowBinding
-import de.sixbits.salescompanion.utils.ColorHelper
 
 private const val TAG = "ContactsRecyclerViewAda"
 
-class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesContactDataModel>) :
+class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesContactDataModel>, private val onContactClickListener: OnContactClickListener) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
 
     class ContactsRecyclerViewHolder(val binding: ContactRowBinding) :
@@ -36,8 +32,9 @@ class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesCo
         holder.binding.tvContactRowTitle.text = fullName
         holder.binding.tvContactRowPhone.text = phone
 
-        holder.binding.ivContactRowLeading.colorFilter =
-            PorterDuffColorFilter(ColorHelper.hashColor(fullName), PorterDuff.Mode.SRC_ATOP)
+        holder.binding.root.setOnClickListener {
+            onContactClickListener.onContactClick(contact = contacts[position])
+        }
     }
 
     override fun getItemCount(): Int = contacts.size

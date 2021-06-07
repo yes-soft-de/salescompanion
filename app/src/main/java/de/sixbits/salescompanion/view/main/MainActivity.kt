@@ -3,12 +3,14 @@ package de.sixbits.salescompanion.view.main
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import de.sixbits.salescompanion.MyApplication
 import de.sixbits.salescompanion.databinding.ActivityMainBinding
 import de.sixbits.salescompanion.di.PresentationComponent
@@ -41,16 +43,12 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = ViewModelProvider(this, viewModelFactory)
             .get(MainViewModel::class.java)
 
-
-        checkPermissions()
+        initViews()
+        setupListeners()
     }
 
     private fun initViews() {
-        binding.rvContactList.layoutManager = LinearLayoutManager(baseContext)
-        mainViewModel.bindDeviceContactsRecyclerView(binding.rvContactList)
-    }
-
-    private fun checkPermissions() {
+        // Check for Permissions
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_CONTACTS
@@ -61,9 +59,30 @@ class MainActivity : AppCompatActivity() {
                 listOf(Manifest.permission.ACCESS_FINE_LOCATION).toTypedArray(),
                 REQUEST_CONTACTS_PERMISSIONS_CODE
             )
-        } else {
-            initViews()
+            return
         }
+
+        binding.rvContactList.layoutManager = LinearLayoutManager(baseContext)
+        mainViewModel.getNetworkContacts()
+        mainViewModel.getDeviceContacts()
+    }
+
+    private fun setupListeners() {
+        mainViewModel.contactsAdapterLiveData.observe(this, {
+            binding.rvContactList.adapter = it
+        })
+        mainViewModel.snacksLiveData.observe(this, {
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        })
+        mainViewModel.loadingLiveData.observe(this, { loading ->
+            if (loading) {
+                binding.pbContactsLoading.visibility = View.VISIBLE
+                binding.rvContactList.visibility = View.GONE
+            } else {
+                binding.pbContactsLoading.visibility = View.GONE
+                binding.rvContactList.visibility = View.VISIBLE
+            }
+        })
     }
 
     override fun onRequestPermissionsResult(
@@ -72,18 +91,8 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == REQUEST_CONTACTS_PERMISSIONS_CODE) {
-            checkPermissions()
+            initViews()
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    private fun requestPermissions() {
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                initViews()
-            }
-        }
     }
 }
