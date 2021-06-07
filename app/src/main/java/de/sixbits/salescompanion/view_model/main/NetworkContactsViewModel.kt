@@ -42,6 +42,7 @@ class NetworkContactsViewModel @Inject constructor(private val contactService: C
                         synced = true,
                     )
                 })
+                loadingLiveData.postValue(false)
             }, {
                 snacksLiveData.postValue("Error Getting Network Contacts $it")
             })

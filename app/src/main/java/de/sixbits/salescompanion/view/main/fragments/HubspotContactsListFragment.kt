@@ -1,17 +1,20 @@
 package de.sixbits.salescompanion.view.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import de.sixbits.salescompanion.R
 import de.sixbits.salescompanion.databinding.FragmentDeviceContactsListBinding
 import de.sixbits.salescompanion.view_model.main.NetworkContactsViewModel
-import javax.inject.Inject
+
+private const val TAG = "HubspotContactsListFrag"
 
 @AndroidEntryPoint
 class HubspotContactsListFragment : Fragment() {
@@ -27,6 +30,8 @@ class HubspotContactsListFragment : Fragment() {
         // Inflate the layout for this fragment
         val fragmentView =
             inflater.inflate(R.layout.fragment_hubspot_contacts_list, container, false)
+
+        Log.d(TAG, "onCreateView: Inflating Network Contacts")
 
         setupViews()
         setupListener()
@@ -51,6 +56,9 @@ class HubspotContactsListFragment : Fragment() {
                 uiBindings.rvContactList.visibility = View.VISIBLE
                 uiBindings.pbContactsLoading.visibility = View.GONE
             }
+        })
+        hubContactsViewModel.snacksLiveData.observe(viewLifecycleOwner, {
+            Snackbar.make(uiBindings.root, it, Snackbar.LENGTH_SHORT).show()
         })
     }
 }

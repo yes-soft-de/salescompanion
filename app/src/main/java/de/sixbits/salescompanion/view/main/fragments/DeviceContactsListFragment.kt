@@ -1,6 +1,7 @@
 package de.sixbits.salescompanion.view.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import de.sixbits.salescompanion.databinding.FragmentDeviceContactsListBinding
 import de.sixbits.salescompanion.view_model.main.DeviceContactsViewModel
 import javax.inject.Inject
 
+private const val TAG = "DeviceContactsListFragm"
+
 @AndroidEntryPoint
 class DeviceContactsListFragment : Fragment() {
     private val deviceContactsViewModel: DeviceContactsViewModel by viewModels()
@@ -28,6 +31,8 @@ class DeviceContactsListFragment : Fragment() {
     ): View? {
         val fragmentView =
             inflater.inflate(R.layout.fragment_device_contacts_list, container, false)
+
+        Log.d(TAG, "onCreateView: Inflating Device Contacts")
 
         uiBindings = FragmentDeviceContactsListBinding.inflate(layoutInflater)
         initViews()

@@ -6,9 +6,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(): ViewModel() {
-    var isInNetwork = false
+    var activePage: ActivePage = ActivePage.DEVICE
 
-    fun setOnNetwork(onNetwork: Boolean) {
-        isInNetwork = onNetwork
+    fun setOnNetwork(activePage: ActivePage) {
+        this.activePage = activePage
     }
+}
+
+enum class ActivePage {
+    NETWORK,
+    DEVICE
 }
