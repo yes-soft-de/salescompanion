@@ -31,13 +31,6 @@ class DeviceContactService @Inject constructor(private val contentResolver: Cont
 
         if (cursor != null && cursor.count > 0) {
             while (cursor.moveToNext()) {
-                val id =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID))
-                val person =
-                    ContentUris.withAppendedId(
-                        ContactsContract.Contacts.CONTENT_URI,
-                        id.toLong()
-                    )
                 val name =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
