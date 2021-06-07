@@ -19,7 +19,7 @@ private const val TAG = "HubspotContactsListFrag"
 @AndroidEntryPoint
 class HubspotContactsListFragment : Fragment() {
 
-    lateinit var uiBindings: FragmentDeviceContactsListBinding
+    private lateinit var uiBindings: FragmentDeviceContactsListBinding
 
     private val hubContactsViewModel: NetworkContactsViewModel by viewModels()
 
@@ -60,5 +60,9 @@ class HubspotContactsListFragment : Fragment() {
         hubContactsViewModel.snacksLiveData.observe(viewLifecycleOwner, {
             Snackbar.make(uiBindings.root, it, Snackbar.LENGTH_SHORT).show()
         })
+
+        uiBindings.srContactList.setOnRefreshListener {
+            hubContactsViewModel.getNetworkContacts()
+        }
     }
 }

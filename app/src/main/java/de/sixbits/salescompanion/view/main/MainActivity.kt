@@ -3,6 +3,7 @@ package de.sixbits.salescompanion.view.main
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -35,32 +36,53 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        if (mainViewModel.activePage == ActivePage.NETWORK) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main_fragment_container, DeviceContactsListFragment())
-                .commit()
-        } else {
-            // Check for Permissions
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_CONTACTS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    listOf(Manifest.permission.ACCESS_FINE_LOCATION).toTypedArray(),
-                    REQUEST_CONTACTS_PERMISSIONS_CODE
-                )
-                return
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fl_main_fragment_container, HubspotContactsListFragment())
-                    .commit()
-            }
+        binding.btnGoToDeviceContacts.setOnClickListener {
+            switchToDeviceContacts()
         }
+
+        binding.btnGoToNetworkContacts.setOnClickListener {
+            switchToNetworkContacts()
+        }
+
+        switchToNetworkContacts()
     }
 
     private fun setupListeners() {
 
+    }
+
+    private fun switchToDeviceContacts() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                listOf(Manifest.permission.ACCESS_FINE_LOCATION).toTypedArray(),
+                REQUEST_CONTACTS_PERMISSIONS_CODE
+            )
+        } else {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fl_main_fragment_container, HubspotContactsListFragment())
+                .commit()
+        }
+    }
+
+    private fun switchToNetworkContacts() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_main_fragment_container, DeviceContactsListFragment())
+            .commit()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CONTACTS_PERMISSIONS_CODE) {
+            switchToDeviceContacts()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

@@ -32,8 +32,6 @@ class DeviceContactsListFragment : Fragment() {
         val fragmentView =
             inflater.inflate(R.layout.fragment_device_contacts_list, container, false)
 
-        Log.d(TAG, "onCreateView: Inflating Device Contacts")
-
         uiBindings = FragmentDeviceContactsListBinding.inflate(layoutInflater)
         initViews()
         setupListener()
@@ -55,6 +53,10 @@ class DeviceContactsListFragment : Fragment() {
         deviceContactsViewModel.snacksLiveData.observe(viewLifecycleOwner, {
             Snackbar.make(uiBindings.root, it, Snackbar.LENGTH_SHORT).show()
         })
+
+        uiBindings.srContactList.setOnRefreshListener {
+            deviceContactsViewModel.getDeviceContacts()
+        }
     }
 
     private fun initViews() {
