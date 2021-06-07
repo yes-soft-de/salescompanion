@@ -1,4 +1,4 @@
-package de.sixbits.salescompanion.view
+package de.sixbits.salescompanion.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

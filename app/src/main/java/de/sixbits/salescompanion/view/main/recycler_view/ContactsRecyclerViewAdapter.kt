@@ -3,11 +3,15 @@ package de.sixbits.salescompanion.view.main.recycler_view
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.databinding.ContactRowBinding
+import de.sixbits.salescompanion.utils.ColorHelper
+
+private const val TAG = "ContactsRecyclerViewAda"
 
 class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesContactDataModel>) :
     RecyclerView.Adapter<ContactsRecyclerViewAdapter.ContactsRecyclerViewHolder>() {
@@ -30,12 +34,10 @@ class ContactsRecyclerViewAdapter constructor(private val contacts: List<SalesCo
         val fullName = "${contacts[position].firstName} ${contacts[position].lastName}"
         val phone = "${contacts[position].phone} "
         holder.binding.tvContactRowTitle.text = fullName
-        holder.binding.tvContactRowTitle.text = phone
+        holder.binding.tvContactRowPhone.text = phone
 
-        val color = Color.BLUE
-        if (holder.binding.ivContactRowLeading.background != null)
-            holder.binding.ivContactRowLeading.background.colorFilter =
-                PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        holder.binding.ivContactRowLeading.colorFilter =
+            PorterDuffColorFilter(ColorHelper.hashColor(fullName), PorterDuff.Mode.SRC_ATOP)
     }
 
     override fun getItemCount(): Int = contacts.size

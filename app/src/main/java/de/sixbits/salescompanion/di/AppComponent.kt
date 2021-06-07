@@ -5,7 +5,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import de.sixbits.salescompanion.MyApplication
-import de.sixbits.salescompanion.view.PresentationComponent
 import javax.inject.Singleton
 
 @Singleton

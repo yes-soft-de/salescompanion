@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.sixbits.salescompanion.callbacks.OnContactClickListener
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.service.ContactService
 import de.sixbits.salescompanion.view.main.recycler_view.ContactsRecyclerViewAdapter
@@ -14,11 +15,14 @@ import javax.inject.Inject
 
 private const val TAG = "MainViewModel"
 
-class MainViewModel @Inject constructor(private val contactService: ContactService) : ViewModel() {
+class MainViewModel @Inject constructor(private val contactService: ContactService) : ViewModel(),
+    OnContactClickListener {
     var hubspotContacts = listOf<SalesContactDataModel>()
     var deviceContacts = listOf<SalesContactDataModel>()
+    var loading = false
 
     fun bindDeviceContactsRecyclerView(rv: RecyclerView) {
+        loading = true
         contactService.getNetworkContacts()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -32,11 +36,15 @@ class MainViewModel @Inject constructor(private val contactService: ContactServi
                         !hubspotContacts.contains(deviceContactItem)
                     }
 
-                    Log.d(TAG, "Attaching Adapter! with ${deviceContacts.size} contacts")
                     rv.adapter = ContactsRecyclerViewAdapter(deviceContacts)
+                    loading = false
                 }
             }, {
                 Log.d(TAG, "init: Error: $it")
             })
+    }
+
+    override fun onContactClick(contact: SalesContactDataModel) {
+        TODO("Not yet implemented")
     }
 }

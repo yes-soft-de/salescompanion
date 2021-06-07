@@ -9,9 +9,7 @@ import dagger.Provides
 import de.sixbits.salescompanion.config.Consts
 import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.network.HubspotApi
-import de.sixbits.salescompanion.network.NetworkComponent
 import de.sixbits.salescompanion.service.ContactService
-import de.sixbits.salescompanion.view.PresentationComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory

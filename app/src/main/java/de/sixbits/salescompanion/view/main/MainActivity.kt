@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.sixbits.salescompanion.MyApplication
 import de.sixbits.salescompanion.databinding.ActivityMainBinding
-import de.sixbits.salescompanion.view.PresentationComponent
+import de.sixbits.salescompanion.di.PresentationComponent
 import de.sixbits.salescompanion.view_model.MainViewModel
 import javax.inject.Inject
 

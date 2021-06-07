@@ -1,9 +1,8 @@
 package de.sixbits.salescompanion.contacts
 
 import android.content.ContentResolver
-import android.database.Cursor
+import android.content.ContentUris
 import android.provider.ContactsContract
-import android.widget.Toast
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import java.util.*
 import javax.inject.Inject
@@ -12,75 +11,61 @@ import javax.inject.Inject
 class DeviceContactService @Inject constructor(private val contentResolver: ContentResolver) {
     fun getContacts(): List<SalesContactDataModel> {
 
-        // First request contacts
-        val cur = contentResolver.query(
-            ContactsContract.Contacts.CONTENT_URI,
-            null, null, null, null
-        ) ?: return listOf()
+        val contactList: MutableList<SalesContactDataModel> = ArrayList()
+        val contentResolver: ContentResolver = contentResolver
 
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.CUSTOM_RINGTONE,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+        )
+        val cursor =
+            contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                projection,
+                ContactsContract.Contacts.HAS_PHONE_NUMBER + ">0 AND LENGTH(" + ContactsContract.CommonDataKinds.Phone.NUMBER + ")>0",
+                null,
+                "display_name ASC"
+            )
 
-        val contacts = mutableListOf<SalesContactDataModel>()
+        if (cursor != null && cursor.count > 0) {
+            while (cursor.moveToNext()) {
+                val id =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID))
+                val person =
+                    ContentUris.withAppendedId(
+                        ContactsContract.Contacts.CONTENT_URI,
+                        id.toLong()
+                    )
+                val name =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
-        // If we have those, then start mapping data
-        if (cur.count > 0) {
-            while (cur.moveToNext()) {
-                var firstName = ""
-                var lastName = ""
-                var phoneNumber = ""
-
-                // If the contact doesn't have a number, well, we don't need it, so skip to the next
-                if (cur.getString(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
-                        .toInt() == 0
-                ) {
-                    continue
+                var firstName = name
+                var lastName = " "
+                if (name.contains(" ")) {
+                    firstName = name.split(" ")[0]
+                    lastName = name.substring(firstName.length)
                 }
 
-                // The contact has a number, so get it
-                val id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID))
-                val pCur: Cursor? = contentResolver.query(
-                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                    null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                    listOf(id).toTypedArray(),
-                    null
-                )
+                val phone =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                while (pCur?.moveToNext() == true) {
-                    phoneNumber =
-                        pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                    break
-                }
-
-                // Now we have the contact
-                pCur?.close()
-
-                // Now we assign the data
-                val fullName =
-                    cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                if (fullName.indexOf(" ") > -1) {
-                    firstName = fullName.substring(0, fullName.indexOf(" "))
-                    lastName = fullName.substring(fullName.indexOf(" "))
-                } else {
-                    firstName = fullName
-                }
-
-                // For now, it will be first name, last name and a phone
-                contacts.add(
+                contactList.add(
                     SalesContactDataModel(
-                        lastName = lastName,
                         firstName = firstName,
-                        phone = phoneNumber,
-                        company = "Yes Soft Contact",
-                        email = "No Email",
+                        lastName = lastName,
+                        phone = phone,
+                        email = "email",
+                        company = " ",
                         createdAt = Calendar.getInstance().time,
                         updatedAt = Calendar.getInstance().time,
                     )
                 )
             }
+            cursor.close()
         }
 
-        cur.close()
-
-        return contacts
+        return contactList
     }
 }

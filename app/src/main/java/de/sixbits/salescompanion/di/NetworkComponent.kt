@@ -1,4 +1,4 @@
-package de.sixbits.salescompanion.network
+package de.sixbits.salescompanion.di
 
 import dagger.Subcomponent
 

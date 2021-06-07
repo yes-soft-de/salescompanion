@@ -1,4 +1,4 @@
-package de.sixbits.salescompanion.view
+package de.sixbits.salescompanion.di
 
 import dagger.Subcomponent
 import de.sixbits.salescompanion.view.main.MainActivity
