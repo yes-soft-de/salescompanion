@@ -1,12 +1,11 @@
 package de.sixbits.salescompanion.util
 
-import de.sixbits.salescompanion.response.HubSpotContactResponse
-import java.util.*
+import de.sixbits.salescompanion.response.HubspotContactListResponse
 
 object HubspotContactResponseFactory {
-    fun getResponseItem(): HubSpotContactResponse.Result {
-        return HubSpotContactResponse.Result(
-            properties = HubSpotContactResponse.Result.Properties(
+    fun getResponseItem(): HubspotContactListResponse.Result {
+        return HubspotContactListResponse.Result(
+            properties = HubspotContactListResponse.Result.Properties(
                 company = "Yes Soft",
                 createdate = "2019-10-30T03:30:17.883Z",
                 lastmodifieddate = "2019-10-30T03:30:17.883Z",
@@ -19,18 +18,18 @@ object HubspotContactResponseFactory {
         )
     }
 
-    fun getResponseItemsList(size: Int = 3): HubSpotContactResponse {
-        val resultList = mutableListOf<HubSpotContactResponse.Result>()
+    fun getResponseItemsList(size: Int = 3): HubspotContactListResponse {
+        val resultList = mutableListOf<HubspotContactListResponse.Result>()
 
         for (i in 0..size) {
-            resultList.add(HubSpotContactResponse.Result(properties = getProperty()))
+            resultList.add(HubspotContactListResponse.Result(properties = getProperty()))
         }
 
-        return HubSpotContactResponse(results = resultList)
+        return HubspotContactListResponse(results = resultList, paging = null)
     }
 
-    private fun getProperty(): HubSpotContactResponse.Result.Properties {
-        return HubSpotContactResponse.Result.Properties(
+    private fun getProperty(): HubspotContactListResponse.Result.Properties {
+        return HubspotContactListResponse.Result.Properties(
             company = "Yes Soft",
             createdate = "2019-10-30T03:30:17.883Z",
             lastmodifieddate = "2019-10-30T03:30:17.883Z",
