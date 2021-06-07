@@ -6,6 +6,8 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import de.sixbits.salescompanion.config.Consts
 import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.network.HubspotApi
@@ -15,16 +17,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module(
     subcomponents = [
-        NetworkComponent::class,
-        ContactsComponent::class
-//        DatabaseComponent::class
+//        NetworkComponent::class,
+//        ContactsComponent::class
     ]
 )
 open class AppModule {
 
-    @Singleton
     @Provides
     fun provideRetrofitInstance(): Retrofit {
         return Retrofit
@@ -35,7 +36,6 @@ open class AppModule {
             .build()
     }
 
-    @Singleton
     @Provides
     fun provideGlideInstance(
         application: Application,
@@ -45,13 +45,11 @@ open class AppModule {
             .setDefaultRequestOptions(requestOptions)
     }
 
-    @Singleton
     @Provides
     fun provideDeviceContactService(application: Application): DeviceContactService {
         return DeviceContactService(application.contentResolver)
     }
 
-    @Singleton
     @Provides
     fun provideContactsService(
         deviceContactService: DeviceContactService,
@@ -63,32 +61,6 @@ open class AppModule {
         )
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideNetworkUtils(application: Application): NetworkUtils {
-//        return NetworkUtils(application)
-//    }
-
-//    @Singleton
-//    @Provides
-//    fun provideDatabase(application: Application): CacheDatabase {
-//        return Room
-//            .databaseBuilder(
-//                application,
-//                CacheDatabase::class.java,
-//                "cache-database.db"
-//            )
-//            .build()
-//    }
-
-    // Provide here
-//    @Singleton
-//    @Provides
-//    fun provideCacheDao(cacheDatabase: CacheDatabase): CacheDao {
-//        return cacheDatabase.cacheDao()
-//    }
-
-    @Singleton
     @Provides
     fun provideHubSpotApi(retrofit: Retrofit): HubspotApi {
         return retrofit.create(HubspotApi::class.java)

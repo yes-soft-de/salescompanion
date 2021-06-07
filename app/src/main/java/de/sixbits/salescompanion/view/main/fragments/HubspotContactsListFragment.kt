@@ -1,44 +1,24 @@
 package de.sixbits.salescompanion.view.main.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import de.sixbits.salescompanion.MyApplication
+import dagger.hilt.android.AndroidEntryPoint
 import de.sixbits.salescompanion.R
 import de.sixbits.salescompanion.databinding.FragmentDeviceContactsListBinding
-import de.sixbits.salescompanion.di.ContactsComponent
-import de.sixbits.salescompanion.view_model.main.DeviceContactsViewModel
 import de.sixbits.salescompanion.view_model.main.NetworkContactsViewModel
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class HubspotContactsListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var mainComponent: ContactsComponent
     lateinit var uiBindings: FragmentDeviceContactsListBinding
 
-    lateinit var hubContactsViewModel: NetworkContactsViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mainComponent = (activity?.application as MyApplication)
-            .appComponent
-            .presentationComponent()
-            .create()
-
-        mainComponent.inject(this)
-
-        super.onCreate(savedInstanceState)
-
-        hubContactsViewModel = ViewModelProvider(this, viewModelFactory)
-            .get(NetworkContactsViewModel::class.java)
-    }
+    private val hubContactsViewModel: NetworkContactsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -2,6 +2,7 @@ package de.sixbits.salescompanion.view_model.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import de.sixbits.salescompanion.callbacks.OnContactClickListener
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.service.ContactService
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 private const val TAG = "MainViewModel"
 
+@HiltViewModel
 class NetworkContactsViewModel @Inject constructor(private val contactService: ContactService) :
     ViewModel(),
     OnContactClickListener {

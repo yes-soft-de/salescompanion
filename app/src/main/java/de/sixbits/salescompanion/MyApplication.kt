@@ -1,17 +1,8 @@
 package de.sixbits.salescompanion
 
-import android.app.Application
-import de.sixbits.salescompanion.di.AppComponent
-import de.sixbits.salescompanion.di.DaggerAppComponent
+import androidx.multidex.MultiDexApplication
+import dagger.hilt.android.HiltAndroidApp
 
-open class MyApplication : Application() {
-    val appComponent: AppComponent by lazy {
-        initializeComponent()
-    }
-
-    private fun initializeComponent(): AppComponent {
-        return DaggerAppComponent.builder()
-            .application(this)
-            .build()
-    }
+@HiltAndroidApp(MultiDexApplication::class)
+open class MyApplication : Hilt_MyApplication() {
 }
