@@ -5,12 +5,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(): ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
     var activePage: ActivePage = ActivePage.DEVICE
+        get() = field
+        set(value) {
+            field = value
+        }
 
-    fun setOnNetwork(activePage: ActivePage) {
-        this.activePage = activePage
-    }
 }
 
 enum class ActivePage {
