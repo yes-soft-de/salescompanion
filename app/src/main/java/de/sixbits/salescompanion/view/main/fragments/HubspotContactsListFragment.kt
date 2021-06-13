@@ -51,13 +51,6 @@ class HubspotContactsListFragment : Fragment() {
     private fun setupListener() {
         hubContactsViewModel.loadingLiveData.observe(viewLifecycleOwner, { loading ->
             uiBindings.srContactList.isRefreshing = loading
-            if (loading) {
-                uiBindings.rvContactList.visibility = View.GONE
-                uiBindings.pbContactsLoading.visibility = View.VISIBLE
-            } else {
-                uiBindings.rvContactList.visibility = View.VISIBLE
-                uiBindings.pbContactsLoading.visibility = View.GONE
-            }
         })
         hubContactsViewModel.snacksLiveData.observe(viewLifecycleOwner, {
             Snackbar.make(uiBindings.root, it, Snackbar.LENGTH_SHORT).show()

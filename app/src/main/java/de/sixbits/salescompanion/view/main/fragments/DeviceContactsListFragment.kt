@@ -40,13 +40,6 @@ class DeviceContactsListFragment : Fragment() {
     private fun setupListener() {
         deviceContactsViewModel.loadingLiveData.observe(viewLifecycleOwner, { loading ->
             uiBindings.srContactList.isRefreshing = loading
-            if (loading) {
-                uiBindings.rvContactList.visibility = View.GONE
-                uiBindings.pbContactsLoading.visibility = View.VISIBLE
-            } else {
-                uiBindings.rvContactList.visibility = View.VISIBLE
-                uiBindings.pbContactsLoading.visibility = View.GONE
-            }
         })
 
         deviceContactsViewModel.snacksLiveData.observe(viewLifecycleOwner, {

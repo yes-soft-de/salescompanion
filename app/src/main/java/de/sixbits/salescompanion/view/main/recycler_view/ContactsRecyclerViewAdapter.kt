@@ -33,7 +33,10 @@ class ContactsRecyclerViewAdapter constructor(
     override fun onBindViewHolder(holder: ContactsRecyclerViewHolder, position: Int) {
         holder.binding.tvContactRowLeading.text = contacts[position].firstName.substring(0, 1)
         val fullName = "${contacts[position].firstName} ${contacts[position].lastName}"
-        val phone = "${contacts[position].phone} "
+        var phone = ""
+        if (contacts[position].phone != null) {
+            phone = "${contacts[position].phone}"
+        }
         holder.binding.tvContactRowTitle.text = fullName
         holder.binding.tvContactRowPhone.text = phone
         if (contacts[position].synced) {
