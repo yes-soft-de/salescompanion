@@ -5,43 +5,43 @@ import com.squareup.moshi.Json
 
 data class HubspotContactListResponse(
     @Json(name = "paging")
-    val paging: Paging?,
+    val paging: Paging,
     @Json(name = "results")
-    val results: List<Result?>?
+    val results: List<Result>
 ) {
     data class Paging(
         @Json(name = "next")
-        val next: Next?
+        val next: Next
     ) {
         data class Next(
             @Json(name = "after")
-            val after: String?, // NTI1Cg%3D%3D
+            val after: String, // NTI1Cg%3D%3D
             @Json(name = "link")
-            val link: String? // ?after=NTI1Cg%3D%3D
+            val link: String // after=NTI1Cg%3D%3D
         )
     }
 
     data class Result(
         @Json(name = "properties")
-        val properties: Properties?
+        val properties: Properties
     ) {
         data class Properties(
             @Json(name = "company")
-            val company: String?, // Biglytics
+            val company: String, // Biglytics
             @Json(name = "createdate")
-            val createdate: String?, // 2019-10-30T03:30:17.883Z
+            val createdate: String, // 2019-10-30T03:30:17.883Z
             @Json(name = "email")
-            val email: String?, // bcooper@biglytics.net
+            val email: String, // bcooper@biglytics.net
             @Json(name = "firstname")
-            val firstname: String?, // Bryan
+            val firstname: String, // Bryan
             @Json(name = "lastmodifieddate")
-            val lastmodifieddate: String?, // 2019-12-07T16:50:06.678Z
+            val lastmodifieddate: String, // 2019-12-07T16:50:06.678Z
             @Json(name = "lastname")
-            val lastname: String?, // Cooper
+            val lastname: String, // Cooper
             @Json(name = "phone")
-            val phone: String?, // (877) 929-0687
+            val phone: String, // (877) 929-0687
             @Json(name = "website")
-            val website: String? // biglytics.net
+            val website: String // biglytics.net
         )
     }
 }

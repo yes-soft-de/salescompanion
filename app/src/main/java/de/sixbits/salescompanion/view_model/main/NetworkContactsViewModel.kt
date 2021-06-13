@@ -1,5 +1,6 @@
 package de.sixbits.salescompanion.view_model.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,20 +31,10 @@ class NetworkContactsViewModel @Inject constructor(private val contactService: C
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                contactsAdapter.replaceContacts(it.map { contact ->
-                    SalesContactDataModel(
-                        firstName = contact.firstName,
-                        lastName = contact.lastName,
-                        email = contact.email,
-                        phone = contact.phone,
-                        company = contact.company,
-                        createdAt = contact.createdAt,
-                        updatedAt = contact.updatedAt,
-                        synced = true,
-                    )
-                })
+                contactsAdapter.replaceContacts(it)
                 loadingLiveData.postValue(false)
             }, {
+                Log.d(TAG, "getNetworkContacts: $it")
                 snacksLiveData.postValue("Error Getting Network Contacts $it")
             })
     }

@@ -1,6 +1,7 @@
 package de.sixbits.salescompanion.service
 
 import android.util.Log
+import de.sixbits.salescompanion.BuildConfig
 import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.mapper.SalesContactMapper
@@ -18,14 +19,14 @@ class ContactService @Inject constructor(
 ) {
     fun getNetworkContacts(): Observable<List<SalesContactDataModel>> {
         return hubspotApi.getContacts()
-            .doOnNext {
-                Log.d(TAG, "getNetworkContacts: ${it.results?.get(0)?.properties?.phone}")
-            }
             .map {
-                return@map SalesContactMapper.toSalesContactDataModelList(it)
+                SalesContactMapper.toSalesContactDataModelList(it)
             }
             .doOnNext {
-                Log.d(TAG, "getNetworkContacts: ${it[0].phone}")
+                Log.d(TAG, "getNetworkContacts: ${it.size}")
+            }
+            .doOnError {
+                Log.d(TAG, "getNetworkContacts: $it")
             }
     }
 
@@ -41,7 +42,7 @@ class ContactService @Inject constructor(
                     email = "",
                     firstname = salesContact.firstName,
                     lastname = salesContact.lastName,
-                    phone = salesContact.phone,
+                    phone = "${salesContact.phone}",
                     website = ""
                 )
             )

@@ -28,40 +28,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <LinearLayout
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
-            <FrameLayout
-                android:layout_width="0dp"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/btn_go_to_device_contacts"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:text="@string/device" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_go_to_device_contacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Device" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/btn_go_to_network_contacts"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_go_to_network_contacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Saved" />
-            </FrameLayout>
-
-        </LinearLayout>
+                android:text="@string/hubspot" />
+        </com.google.android.material.tabs.TabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

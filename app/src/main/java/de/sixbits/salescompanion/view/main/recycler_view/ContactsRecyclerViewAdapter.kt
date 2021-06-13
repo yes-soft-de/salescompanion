@@ -1,5 +1,6 @@
 package de.sixbits.salescompanion.view.main.recycler_view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,7 @@ class ContactsRecyclerViewAdapter constructor(
     }
 
     fun replaceContacts(newContacts: List<SalesContactDataModel>) {
+        Log.d(TAG, "replaceContacts: Replacing Contacts ${newContacts.size}")
         contacts = newContacts
         notifyDataSetChanged()
     }

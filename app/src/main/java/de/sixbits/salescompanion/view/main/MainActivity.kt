@@ -64,14 +64,14 @@ class MainActivity : AppCompatActivity() {
             )
         } else {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_main_fragment_container, HubspotContactsListFragment())
+                .replace(R.id.fl_main_fragment_container, DeviceContactsListFragment())
                 .commit()
         }
     }
 
     private fun switchToNetworkContacts() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_main_fragment_container, DeviceContactsListFragment())
+            .replace(R.id.fl_main_fragment_container, HubspotContactsListFragment())
             .commit()
     }
 

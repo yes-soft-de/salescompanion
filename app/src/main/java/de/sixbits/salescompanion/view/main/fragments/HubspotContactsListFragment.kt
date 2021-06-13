@@ -26,17 +26,18 @@ class HubspotContactsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val fragmentView =
-            inflater.inflate(R.layout.fragment_hubspot_contacts_list, container, false)
-
-        Log.d(TAG, "onCreateView: Inflating Network Contacts")
+        uiBindings = FragmentDeviceContactsListBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         setupViews()
         setupListener()
 
-        return fragmentView
+        return uiBindings.root
     }
 
     private fun setupViews() {
@@ -49,6 +50,7 @@ class HubspotContactsListFragment : Fragment() {
 
     private fun setupListener() {
         hubContactsViewModel.loadingLiveData.observe(viewLifecycleOwner, { loading ->
+            uiBindings.srContactList.isRefreshing = loading
             if (loading) {
                 uiBindings.rvContactList.visibility = View.GONE
                 uiBindings.pbContactsLoading.visibility = View.VISIBLE
