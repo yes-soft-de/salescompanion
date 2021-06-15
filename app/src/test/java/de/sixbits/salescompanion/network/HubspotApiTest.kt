@@ -26,7 +26,12 @@ internal class HubspotApiTest {
             Observable.just(
                 HubspotContactListResponse(
                     results = listOf(),
-                    paging = null
+                    paging = HubspotContactListResponse.Paging(
+                        next = HubspotContactListResponse.Paging.Next(
+                            after = "",
+                            link = ""
+                        )
+                    )
                 )
             )
         )

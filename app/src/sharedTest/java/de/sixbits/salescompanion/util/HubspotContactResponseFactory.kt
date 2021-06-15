@@ -25,7 +25,12 @@ object HubspotContactResponseFactory {
             resultList.add(HubspotContactListResponse.Result(properties = getProperty()))
         }
 
-        return HubspotContactListResponse(results = resultList, paging = null)
+        return HubspotContactListResponse(results = resultList, paging = HubspotContactListResponse.Paging(
+            next = HubspotContactListResponse.Paging.Next(
+                after = " ",
+                link = " "
+            )
+        ))
     }
 
     private fun getProperty(): HubspotContactListResponse.Result.Properties {
