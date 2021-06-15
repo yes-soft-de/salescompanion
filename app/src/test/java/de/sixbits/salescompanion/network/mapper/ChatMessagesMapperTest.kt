@@ -1,5 +1,6 @@
 package de.sixbits.salescompanion.network.mapper
 
+import android.util.Log
 import de.sixbits.salescompanion.mapper.ChatMessagesMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
