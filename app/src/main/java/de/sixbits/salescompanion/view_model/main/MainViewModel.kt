@@ -7,10 +7,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
     var activePage: ActivePage = ActivePage.DEVICE
-        get() = field
-        set(value) {
-            field = value
-        }
 
 }
 

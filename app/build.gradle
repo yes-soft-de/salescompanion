@@ -254,4 +254,7 @@ dependencies {
     implementation "androidx.multidex:multidex:$multidex_version"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // Guava
+    implementation("com.google.guava:guava:30.1.1-android")
 }
