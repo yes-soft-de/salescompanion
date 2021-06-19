@@ -1,38 +1,32 @@
 package de.sixbits.salescompanion.network
 
-import de.sixbits.salescompanion.response.HubspotContactListResponse
+import de.sixbits.salescompanion.mapper.ChatLogMapper
+import de.sixbits.salescompanion.request.CreateEmailLogRequest
+import de.sixbits.salescompanion.util.ChatLogFactory
+import de.sixbits.salescompanion.util.CreateEmailLogResponseFactory
 import de.sixbits.salescompanion.util.HubspotContactResponseFactory
 import io.reactivex.rxjava3.core.Observable
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mockito.*
+import org.mockito.junit.jupiter.MockitoExtension
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension::class)
 internal class HubspotApiTest {
 
-    lateinit var hubspotApi: HubspotApi
-
-    @BeforeAll
-    fun setup() {
-        hubspotApi = mock(HubspotApi::class.java)
-    }
+    private lateinit var hubspotApi: HubspotApi
 
     @Test
     fun getContacts() {
+        hubspotApi = mock(HubspotApi::class.java)
+
         // Given I have no contacts
         `when`(hubspotApi.getContacts()).thenReturn(
             Observable.just(
-                HubspotContactListResponse(
-                    results = listOf(),
-                    paging = HubspotContactListResponse.Paging(
-                        next = HubspotContactListResponse.Paging.Next(
-                            after = "",
-                            link = ""
-                        )
-                    )
-                )
+                HubspotContactResponseFactory.getCreateContactResponse()
             )
         )
 
@@ -41,7 +35,7 @@ internal class HubspotApiTest {
             .test()
             // Then I should get an empty List
             .assertValue {
-                it.results?.isEmpty() ?: false
+                it.results.isEmpty()
             }
 
         // Given I have three contacts
@@ -56,7 +50,30 @@ internal class HubspotApiTest {
             .test()
             // Then I should get a non empty List
             .assertValue {
-                it.results?.isNotEmpty() ?: false
+                it.results.isNotEmpty()
+            }
+    }
+
+    @Test
+    fun testCreateLog() {
+        hubspotApi = mock(HubspotApi::class.java)
+
+        // Given I have a chat log
+        `when`(hubspotApi.createLog(ChatLogMapper.toCreateEmailLogRequest(
+            ChatLogFactory.getChatLog()
+        ))).thenReturn(
+            Observable.just(CreateEmailLogResponseFactory.getChatCreateResponse())
+        )
+
+        // When I request to save a log
+        hubspotApi.createLog(
+            ChatLogMapper.toCreateEmailLogRequest(
+                ChatLogFactory.getChatLog()
+            )
+        ).test()
+            // Then I should get an engagement Id to indicate that the request has been saved
+            .assertValue {
+                it.engagement.id != null
             }
     }
 }

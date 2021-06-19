@@ -45,4 +45,16 @@ object HubspotContactResponseFactory {
             website = "mohammad-kalaleeb@gmail.com"
         )
     }
+
+    fun getCreateContactResponse(): HubspotContactListResponse {
+        return HubspotContactListResponse(
+            results = listOf(),
+            paging = HubspotContactListResponse.Paging(
+                next = HubspotContactListResponse.Paging.Next(
+                    after = "",
+                    link = ""
+                )
+            )
+        )
+    }
 }
