@@ -23,4 +23,8 @@ interface HubspotApi {
         @Body createContactRequest: CreateHubSpotContactRequest,
         @Query("hapikey") apiKey: String = BuildConfig.HUBSPOT_API_KEY
     ): Observable<HubSpotContactResponse>
+
+
+    @POST("/")
+    fun createLog()
 }
