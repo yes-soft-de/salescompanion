@@ -1,7 +1,9 @@
 package de.sixbits.salescompanion.network
 
 import de.sixbits.salescompanion.BuildConfig
+import de.sixbits.salescompanion.request.CreateEmailLogRequest
 import de.sixbits.salescompanion.request.CreateHubSpotContactRequest
+import de.sixbits.salescompanion.response.CreateEmailLogResponse
 import de.sixbits.salescompanion.response.HubspotContactListResponse
 import de.sixbits.salescompanion.response.HubSpotContactResponse
 import io.reactivex.rxjava3.core.Observable
@@ -25,6 +27,9 @@ interface HubspotApi {
     ): Observable<HubSpotContactResponse>
 
 
-    @POST("/")
-    fun createLog()
+    @POST("/engagements/v1/engagements")
+    fun createLog(
+        @Body createEmailLogRequest: CreateEmailLogRequest,
+        @Query("hapikey") apiKey: String = BuildConfig.HUBSPOT_API_KEY
+    ): Observable<CreateEmailLogResponse>
 }
