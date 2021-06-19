@@ -13,7 +13,8 @@ object HubspotContactResponseFactory {
                 lastname = "Al Kalaleeb",
                 email = "mohammad.al.kalaleeb@gmail.com",
                 phone = "+963123456789",
-                website = "mohammad-kalaleeb@gmail.com"
+                website = "mohammad-kalaleeb@gmail.com",
+                id = 1
             )
         )
     }
@@ -42,7 +43,8 @@ object HubspotContactResponseFactory {
             lastname = "Al Kalaleeb",
             email = "mohammad.al.kalaleeb@gmail.com",
             phone = "+963123456789",
-            website = "mohammad-kalaleeb@gmail.com"
+            website = "mohammad-kalaleeb@gmail.com",
+            id = 1
         )
     }
 

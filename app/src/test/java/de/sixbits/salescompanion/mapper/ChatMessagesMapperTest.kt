@@ -7,15 +7,36 @@ import org.junit.jupiter.api.TestInstance
 class ChatMessagesMapperTest {
 
     @Test
-    fun testMapper() {
+    fun testLineMapper() {
         val input =
-            "6/3/20, 00:45 - +963 959 379 692: اوك رح بلش صممن فتحتwebsite بالفجوال بلشت بالlogin"
+            "6/3/20, 00:45 - +963 959 379 692: I Message"
 
         val message = ChatMessagesMapper.toChatMessageDateModel(input)
 
-        assert(message.name.trim() == "+963 959 379 692")
-        assert(message.date.trim() == "6/3/20")
-        assert(message.time.trim() == "00:45")
-        assert(message.msg.trim() == " اوك رح بلش صممن فتحتwebsite بالفجوال بلشت بالlogin".trim())
+        println("${message?.date} | ${message?.time} | ${message?.name} | ${message?.msg}")
+
+        assert(message?.name == "+963 959 379 692")
+        assert(message?.date == "6/3/20")
+        assert(message?.time == "00:45")
+        assert(message?.msg == "I Message")
+    }
+
+    @Test
+    fun testLineMapperExceptions() {
+        val input = "I Message"
+
+        val message = ChatMessagesMapper.toChatMessageDateModel(input)
+
+        assert(message == null)
+    }
+
+    @Test
+    fun testLogMapper() {
+        val input =
+            "6/3/20, 00:45 - +963 959 379 692: I Message\n6/3/20, 00:45 - +963 959 379 692: I Message"
+
+        val message = ChatMessagesMapper.toChatMessagesDateModelList(input)
+
+        assert(message.size == 2)
     }
 }

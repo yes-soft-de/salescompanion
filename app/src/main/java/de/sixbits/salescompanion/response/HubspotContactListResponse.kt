@@ -26,6 +26,8 @@ data class HubspotContactListResponse(
         val properties: Properties
     ) {
         data class Properties(
+            @Json(name = "hs_object_id")
+            val id: Long, // '601',
             @Json(name = "company")
             val company: String, // Biglytics
             @Json(name = "createdate")

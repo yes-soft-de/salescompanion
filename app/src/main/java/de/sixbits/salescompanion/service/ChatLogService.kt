@@ -5,13 +5,25 @@ import de.sixbits.salescompanion.mapper.ChatLogMapper
 import de.sixbits.salescompanion.network.HubspotApi
 import de.sixbits.salescompanion.response.CreateEmailLogResponse
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 
-class ChatLogService @Inject constructor(private val hubspotApi: HubspotApi) {
-    fun createChatLog(chatLog: List<ChatMessageDataModel>): Observable<CreateEmailLogResponse> {
+class ChatLogService @Inject constructor(
+    private val hubspotApi: HubspotApi,
+    private val contactService: ContactService
+) {
+    fun createChatLog(
+        chatLog: List<ChatMessageDataModel>,
+        contactId: Long
+    ): Observable<CreateEmailLogResponse> {
         return hubspotApi.createLog(
-            createEmailLogRequest = ChatLogMapper.toCreateEmailLogResponse(chatLog)
+            ChatLogMapper.toCreateEmailLogRequest(
+                chatLog = chatLog,
+                contactId = contactId
+            )
         )
     }
 }

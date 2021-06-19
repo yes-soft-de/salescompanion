@@ -34,22 +34,15 @@ class DeviceContactService @Inject constructor(private val contentResolver: Cont
                 val name =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
 
-                var firstName = name
-                var lastName = " "
-                if (name.contains(" ")) {
-                    firstName = name.split(" ")[0]
-                    lastName = name.substring(firstName.length)
-                }
-
                 val phone =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
                 contactList.add(
                     SalesContactDataModel(
-                        firstName = firstName,
-                        lastName = lastName,
+                        firstName = name,
+                        lastName = " ",
                         phone = phone,
-                        email = "email",
+                        email = "$name@gmail.com".replace(" ", "."),
                         company = " ",
                         createdAt = Calendar.getInstance().time,
                         updatedAt = Calendar.getInstance().time,

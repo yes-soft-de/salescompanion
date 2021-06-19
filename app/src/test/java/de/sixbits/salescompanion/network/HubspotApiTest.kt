@@ -60,7 +60,8 @@ internal class HubspotApiTest {
 
         // Given I have a chat log
         `when`(hubspotApi.createLog(ChatLogMapper.toCreateEmailLogRequest(
-            ChatLogFactory.getChatLog()
+            ChatLogFactory.getChatLog(),
+            1
         ))).thenReturn(
             Observable.just(CreateEmailLogResponseFactory.getChatCreateResponse())
         )
@@ -68,7 +69,8 @@ internal class HubspotApiTest {
         // When I request to save a log
         hubspotApi.createLog(
             ChatLogMapper.toCreateEmailLogRequest(
-                ChatLogFactory.getChatLog()
+                ChatLogFactory.getChatLog(),
+                1
             )
         ).test()
             // Then I should get an engagement Id to indicate that the request has been saved

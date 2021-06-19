@@ -5,7 +5,10 @@ import de.sixbits.salescompanion.request.CreateEmailLogRequest
 import de.sixbits.salescompanion.templates.EmailTemplates
 
 object ChatLogMapper {
-    fun toCreateEmailLogResponse(chatLog: List<ChatMessageDataModel>): CreateEmailLogRequest {
+    fun toCreateEmailLogRequest(
+        chatLog: List<ChatMessageDataModel>,
+        contactId: Long
+    ): CreateEmailLogRequest {
         return CreateEmailLogRequest(
             engagement = CreateEmailLogRequest.Engagement(
                 active = true,
@@ -13,7 +16,7 @@ object ChatLogMapper {
                 type = "Email"
             ),
             associations = CreateEmailLogRequest.Associations(
-                contactIds = listOf(),
+                contactIds = listOf(contactId.toInt()),
                 companyIds = listOf(),
                 dealIds = listOf(),
                 ticketIds = listOf(),
