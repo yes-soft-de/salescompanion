@@ -1,15 +1,12 @@
 package de.sixbits.salescompanion.service
 
 import android.util.Log
-import de.sixbits.salescompanion.BuildConfig
 import de.sixbits.salescompanion.contacts.DeviceContactService
 import de.sixbits.salescompanion.data_model.SalesContactDataModel
 import de.sixbits.salescompanion.mapper.SalesContactMapper
 import de.sixbits.salescompanion.network.HubspotApi
 import de.sixbits.salescompanion.request.CreateHubSpotContactRequest
 import de.sixbits.salescompanion.response.HubSpotContactResponse
-import de.sixbits.salescompanion.response.HubspotContactListResponse
-import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
@@ -51,25 +48,22 @@ class ContactService @Inject constructor(
         )
     }
 
-    fun searchContact(name: String): Observable<Long> {
-        val deviceContactName = name.replace(" ", "")
+    fun searchContact(name: String): Observable<String> {
+        val deviceContactName = name.replace(" ", "").lowercase()
         return hubspotApi.getContacts()
             .map {
-                it.results.filter { resultItem ->
+                for (resultItem in it.results) {
                     val networkName =
                         "${resultItem.properties.firstname} ${resultItem.properties.lastname}".replace(
                             " ",
                             ""
-                        )
-                    return@filter networkName == deviceContactName
+                        ).lowercase()
+                    if (networkName == deviceContactName) {
+                        return@map resultItem.id
+                    }
                 }
-            }
-            .map {
-                if (it.isEmpty()) {
-                    return@map -1
-                } else {
-                    it[0].properties.id
-                }
+
+                return@map ""
             }
     }
 }

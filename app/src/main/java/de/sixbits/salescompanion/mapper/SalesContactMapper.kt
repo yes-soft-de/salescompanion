@@ -36,11 +36,9 @@ object SalesContactMapper {
         return SalesContactDataModel(
             firstName = it.properties.firstname,
             lastName = it.properties.lastname,
-            email = it.properties.email,
             phone = it.properties.phone,
             createdAt = createdAt,
             updatedAt = updatedAt,
-            company = it.properties.company
         )
     }
 }

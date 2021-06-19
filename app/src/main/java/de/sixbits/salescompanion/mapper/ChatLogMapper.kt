@@ -7,7 +7,7 @@ import de.sixbits.salescompanion.templates.EmailTemplates
 object ChatLogMapper {
     fun toCreateEmailLogRequest(
         chatLog: List<ChatMessageDataModel>,
-        contactId: Long
+        contactId: String
     ): CreateEmailLogRequest {
         return CreateEmailLogRequest(
             engagement = CreateEmailLogRequest.Engagement(

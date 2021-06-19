@@ -16,7 +16,6 @@ interface HubspotApi {
     @GET("/crm/v3/objects/contacts")
     fun getContacts(
         @Query("limit") limit: Int = 100,
-        @Query("archived") archived: Boolean = false,
         @Query("hapikey") apiKey: String = BuildConfig.HUBSPOT_API_KEY
     ): Observable<HubspotContactListResponse>
 

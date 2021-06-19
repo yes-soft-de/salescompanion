@@ -42,8 +42,6 @@ class DeviceContactService @Inject constructor(private val contentResolver: Cont
                         firstName = name,
                         lastName = " ",
                         phone = phone,
-                        email = "$name@gmail.com".replace(" ", "."),
-                        company = " ",
                         createdAt = Calendar.getInstance().time,
                         updatedAt = Calendar.getInstance().time,
                     )

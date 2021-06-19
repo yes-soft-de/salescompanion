@@ -23,7 +23,7 @@ class TicketViewModel @Inject constructor(
     val statusLiveDate = MutableLiveData<String>()
 
     fun saveNewLog(chatLog: String) {
-        Log.d(TAG, "saveNewLog: Saving New Log $chatLog")
+        Log.d(TAG, "saveNewLog: Saving New Log")
 
         // First map chat logs
         val messages = ChatMessagesMapper.toChatMessagesDateModelList(chatLog)
@@ -44,10 +44,10 @@ class TicketViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d(TAG, "saveNewLog: Got Contact Id $it")
+                    Log.d(TAG, "saveNewLog: Got Contact Id $it for $name")
                     statusLiveDate.postValue("Got Contact Id $it")
 
-                    if (it.toInt() != -1) {
+                    if (it.isNotEmpty()) {
                         // Now post the chat
                         chatLogService.createChatLog(chatLog = messages, contactId = it)
                             .subscribeOn(Schedulers.io())

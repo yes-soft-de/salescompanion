@@ -17,7 +17,7 @@ class ChatLogService @Inject constructor(
 ) {
     fun createChatLog(
         chatLog: List<ChatMessageDataModel>,
-        contactId: Long
+        contactId: String
     ): Observable<CreateEmailLogResponse> {
         return hubspotApi.createLog(
             ChatLogMapper.toCreateEmailLogRequest(
